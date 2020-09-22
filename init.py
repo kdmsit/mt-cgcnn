@@ -16,8 +16,8 @@ def init(root_dir, save_dir, disable_cuda=False, epochs=30, workers=0, scheduler
 
 if __name__ == '__main__':
 	SAVE_RESULTS = True
-
-	FILEPATH = 'data/sample/'
+	print("Run mt-cgcnn..")
+	FILEPATH = 'data/'
 	# NOTE: the path should be valid i.e it should be '..results/' and not 'results'. Slashes are important these days
 	SAVEPATH = FILEPATH + 'results/'
 
@@ -39,8 +39,8 @@ if __name__ == '__main__':
 	num_properties = len(file.readline().rstrip().split(',')) - 1	# Number of properties being predicted
 	print('Length of dataset: ', TOTAL_SIZE)
 
-	train_size = math.floor(0.6 * TOTAL_SIZE)
-	val_size = math.floor(0.2 * TOTAL_SIZE)
+	train_size = math.floor(0.8 * TOTAL_SIZE)
+	val_size = math.floor(0.02 * TOTAL_SIZE)
 	test_size = TOTAL_SIZE - train_size - val_size
 
 	start = time.time()

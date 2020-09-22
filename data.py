@@ -319,10 +319,19 @@ class CIFData(Dataset):
 	@functools.lru_cache(maxsize=None)  # Cache loaded structures
 	def __getitem__(self, idx):
 		data_row = self.id_prop_data[idx]
+		data_row_prop = np.asarray(data_row)[[1,2,3]]
 		cif_id = str(int(float(data_row.pop(0))))
+
 		# At this point we have a list of strings each with some decimal value of a property or None.
 		# To represent None in float datatype while converting we use float("inf")
-		targets = [float(x) if x else float("inf") for x in data_row]
+		targets = [float(x) if x != 'None' else 0 for x in data_row_prop]
+		# targets = []
+		# for x in data_row_prop:
+		# 	if x != 'None':
+		# 		targets.append(float(x))
+		# 	else:
+		# 		# targets.append(float("inf"))
+		# 		targets.append(0.0)
 		crystal = Structure.from_file(os.path.join(self.root_dir,
 												   cif_id+'.cif'))
 		atom_fea = np.vstack([self.ari.get_atom_fea(crystal[i].specie.number)
